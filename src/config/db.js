@@ -3,7 +3,6 @@ import { env } from "./env.js";
 
 let connecting = null;
 
-// Reuses one connection per process, which serverless platforms (Vercel) keep warm between requests
 export async function connectDB() {
   if (mongoose.connection.readyState === 1) return mongoose.connection;
 
