@@ -2,7 +2,6 @@ import { env } from "../../config/env.js";
 
 const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 const TIMEOUT_MS = 20_000;
-// Statuses where another model may still answer (unavailable model, rate limit, overload)
 const RETRYABLE_STATUSES = new Set([404, 429, 500, 503]);
 
 function createError(message, code) {
