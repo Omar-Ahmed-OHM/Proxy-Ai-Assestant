@@ -20,7 +20,10 @@ export const env = {
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   GEMINI_MODEL: process.env.GEMINI_MODEL || "gemini-3.5-flash",
   GEMINI_FALLBACK_MODELS: (process.env.GEMINI_FALLBACK_MODELS || "gemini-3.6-flash,gemini-3.5-flash-lite")
-    .split(",")
-    .map((model) => model.trim())
-    .filter(Boolean),
+  .split(",")
+  .map((model) => model.trim())
+  .filter(Boolean),
+  VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
+  VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
+  VAPID_SUBJECT: process.env.VAPID_SUBJECT || "mailto:admin@example.com",
 };

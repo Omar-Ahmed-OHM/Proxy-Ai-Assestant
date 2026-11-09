@@ -13,6 +13,7 @@ import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 import { apiLimiter } from "./middlewares/rateLimiter.js";
 import { env } from "./config/env.js";
 import { connectDB } from "./config/db.js";
+import pushRoutes from "./modules/push/push.routes.js";
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use("/api/v1/reminders", remindersRoutes);
 app.use("/api/v1/daily-plans", dailyPlanRoutes);
 app.use("/api/v1/assistant", assistantRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/push", pushRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

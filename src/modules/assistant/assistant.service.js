@@ -40,7 +40,7 @@ function addDays(day, amount) {
   return dateToCalendarDay(date);
 }
 
-// Date-only due dates are stored as UTC midnight, so they carry no time of day
+
 function isAllDay(date) {
   return (
     date.getUTCHours() === 0 &&
