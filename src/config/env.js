@@ -25,5 +25,6 @@ export const env = {
   .filter(Boolean),
   VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
+  CRON_SECRET: process.env.CRON_SECRET,
   VAPID_SUBJECT: process.env.VAPID_SUBJECT || "mailto:admin@example.com",
 };

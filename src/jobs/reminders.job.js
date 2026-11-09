@@ -17,30 +17,36 @@ async function claimReminder(reminder, now) {
 }
 
 async function notify(reminder) {
-  await sendPushToUser(reminder.userId, {
+  const { sent } = await sendPushToUser(reminder.userId, {
     title: `⏰ ${reminder.title}`,
     body: reminder.description || "ده ميعاد التذكير بتاعك.",
     url: "/reminders",
     tag: `reminder-${reminder._id}`,
   });
+  return sent;
 }
 
 export async function processDueReminders() {
-  if (running) return;
+  if (running) return { skipped: true };
   running = true;
+  const stats = { due: 0, sent: 0, stale: 0 };
 
   try {
     await connectDB();
     const now = new Date();
     const due = await findDueReminders(now);
+    stats.due = due.length;
 
     for (const reminder of due) {
       const claimed = await claimReminder(reminder, now);
       if (!claimed) continue;
-      if (now - claimed.remindAt > STALE_AFTER_MS) continue;
+      if (now - claimed.remindAt > STALE_AFTER_MS) {
+        stats.stale += 1;
+        continue;
+      }
 
       try {
-        await notify(claimed);
+        stats.sent += await notify(claimed);
       } catch (error) {
         console.error(`Failed to send reminder ${claimed._id}:`, error.message);
       }
@@ -50,6 +56,8 @@ export async function processDueReminders() {
   } finally {
     running = false;
   }
+
+  return stats;
 }
 
 export function startRemindersJob() {

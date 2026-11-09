@@ -14,6 +14,7 @@ import { apiLimiter } from "./middlewares/rateLimiter.js";
 import { env } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 import pushRoutes from "./modules/push/push.routes.js";
+import { runRemindersJob } from "./jobs/reminders.handler.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ if (env.TRUST_PROXY !== undefined) {
 
 app.use(cors());
 app.use(helm());
+app.all("/api/v1/jobs/reminders", runRemindersJob);
 app.use("/api/v1", apiLimiter);
 app.use(express.json())
 
