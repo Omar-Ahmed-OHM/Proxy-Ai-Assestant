@@ -14,7 +14,7 @@ export const subscribe = async (req, res, next) => {
     await PushSubscription.findOneAndUpdate(
       { endpoint },
       {
-        userId: req.user._id,
+        userId: req.user.id,
         endpoint,
         keys,
         expirationTime: expirationTime ?? null,
@@ -36,7 +36,7 @@ export const unsubscribe = async (req, res, next) => {
 
     await PushSubscription.deleteOne({
       endpoint,
-      userId: req.user._id,
+      userId: req.user.id,
     });
 
     return res.status(200).json({
@@ -49,7 +49,7 @@ export const unsubscribe = async (req, res, next) => {
 
 export const testPush = async (req, res, next) => {
   try {
-    const { devices, results } = await sendPushToUser(req.user._id, {
+    const { devices, results } = await sendPushToUser(req.user.id, {
       title: "Reminder App",
       body: "Push notifications are working!",
       url: "/",
